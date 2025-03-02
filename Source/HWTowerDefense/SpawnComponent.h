@@ -18,20 +18,14 @@ class HWTOWERDEFENSE_API USpawnComponent : public UActorComponent
 	UPROPERTY(EditAnywhere, Category = "Spawn|SpawnInfo")
 	TSubclassOf<AActor> actorToSpawn = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Spawn|SpawnInfo")
-	float spawnRate = 5.0f;
-
-	UPROPERTY(VisibleAnywhere, Category = "Spawn|SpawnInfo")
-	FTimerHandle spawnTimer;
-
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSpawn, AActor*, _actor);
 	UPROPERTY()
-	FOnSpawn OnSpawn;
+	FOnSpawn onSpawn;
 
 public:
 	FORCEINLINE FOnSpawn& GetOnSpawn()
 	{
-		return OnSpawn;
+		return onSpawn;
 	}	
 public:	
 	// Sets default values for this component's properties
@@ -44,7 +38,5 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-private : 
 	void Spawn();
 };

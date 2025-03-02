@@ -39,5 +39,6 @@ protected:
 
 private:
 	void DrawDebug();
+	UFUNCTION() void FinishedTrack();
 
 };

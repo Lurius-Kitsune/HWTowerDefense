@@ -17,7 +17,7 @@ void USpawnComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	owner = GetOwner();
-	GetWorld()->GetTimerManager().SetTimer(spawnTimer, this, &USpawnComponent::Spawn, spawnRate, true);
+	
 }
 
 
@@ -34,7 +34,7 @@ void USpawnComponent::Spawn()
 	if (actorToSpawn)
 	{
 		AActor* _actor = owner->GetWorld()->SpawnActor<AActor>(actorToSpawn, owner->GetActorLocation(), owner->GetActorRotation());
-		OnSpawn.Broadcast(_actor);
+		onSpawn.Broadcast(_actor);
 	}
 }
 

@@ -17,23 +17,32 @@ class HWTOWERDEFENSE_API UTD_MouvementComponent : public UActorComponent
 	AActor* owner;
 
 	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
-	float movementSpeed = 500.0f;
+	float movementSpeed = 200.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
-	TArray<TObjectPtr<ACheckpoint>> waypoints;
+	TArray<TObjectPtr<AActor>> waypoints;
 
 	UPROPERTY(VisibleAnywhere, Category = "Mouvement|Data")
-	TObjectPtr<ACheckpoint> currentWaypoint;
+	TObjectPtr<AActor> currentWaypoint;
 
 	UPROPERTY();
 	int currentWaypointIndex = 0;
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTrackFinish);
+	UPROPERTY()
+	FOnTrackFinish onTrackFinish;
+
 public :
-	FORCEINLINE void SetWaypoints(const TArray<TObjectPtr<ACheckpoint>>& _waypoints)
+	FORCEINLINE void SetWaypoints(const TArray<TObjectPtr<AActor>>& _waypoints)
 	{
 		waypoints = _waypoints;
 		SetNextWaypoint();
 	}
+	FORCEINLINE FOnTrackFinish& OnTrackFinish()
+	{
+		return onTrackFinish;
+	}
+
 public:	
 	// Sets default values for this component's properties
 	UTD_MouvementComponent();

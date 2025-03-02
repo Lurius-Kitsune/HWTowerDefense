@@ -2,6 +2,7 @@
 
 
 #include "SpawnEnemy.h"
+#include "Checkpoint.h"
 #include "Components/BillboardComponent.h"
 #include "Enemy.h"
 // Sets default values
@@ -22,6 +23,7 @@ void ASpawnEnemy::BeginPlay()
 {
 	Super::BeginPlay();
 	spawnComponent->GetOnSpawn().AddDynamic(this, &ASpawnEnemy::SetCheckpointsToEnemy);
+	GetWorld()->GetTimerManager().SetTimer(spawnTimer, spawnComponent.Get(), &USpawnComponent::Spawn, spawnRate, true);
 }
 
 // Called every frame
@@ -35,7 +37,17 @@ void ASpawnEnemy::SetCheckpointsToEnemy(AActor* _actor)
 {
 	if (AEnemy* _enemy = Cast<AEnemy>(_actor))
 	{
-		_enemy->GetMovement()->SetWaypoints(checkpoints);
+		_enemy->GetMovement()->SetWaypoints(ArrayCheckpointToActor());
 	}
+}
+
+TArray<TObjectPtr<AActor>> ASpawnEnemy::ArrayCheckpointToActor()
+{
+	TArray<TObjectPtr<AActor>> _actors;
+	for (ACheckpoint* _checkpoint : checkpoints)
+	{
+		_actors.Add(_checkpoint);
+	}
+	return _actors;
 }
 

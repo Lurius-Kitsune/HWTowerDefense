@@ -32,7 +32,7 @@ void UTD_MouvementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 void UTD_MouvementComponent::DrawDebug()
 {
-	if (!currentWaypoint) return;
+	if (!currentWaypoint || !owner) return;
 	DrawDebugLine(GetWorld(), owner->GetActorLocation(), currentWaypoint->GetActorLocation(), FColor::Blue, false, -1, 0, 5.0f);
 }
 
@@ -44,6 +44,10 @@ void UTD_MouvementComponent::MoveToWaypoint()
 	owner->SetActorLocation(_location);
 	if (HasArrivedToWaypoint())
 	{
+		if (currentWaypointIndex == waypoints.Num() - 1)
+		{
+			onTrackFinish.Broadcast();
+		}
 		currentWaypointIndex++;
 		SetNextWaypoint();
 	}
@@ -63,6 +67,7 @@ void UTD_MouvementComponent::SetNextWaypoint()
 bool UTD_MouvementComponent::HasArrivedToWaypoint()
 {
 	if (!currentWaypoint) return true;
+
 	return FVector::Dist(owner->GetActorLocation(), currentWaypoint->GetActorLocation()) <= 1.0f;
 }
 
