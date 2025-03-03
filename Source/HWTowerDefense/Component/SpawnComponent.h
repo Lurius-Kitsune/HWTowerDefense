@@ -3,20 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "TD_BaseComponent.h"
+
 #include "SpawnComponent.generated.h"
-
-
+class ATD_BaseEntity;
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class HWTOWERDEFENSE_API USpawnComponent : public UActorComponent
+class HWTOWERDEFENSE_API USpawnComponent : public UTD_BaseComponent
 {
 	GENERATED_BODY()
 
-	UPROPERTY();
-	AActor* owner;
-
-	UPROPERTY(EditAnywhere, Category = "Spawn|SpawnInfo")
-	TSubclassOf<AActor> actorToSpawn = nullptr;
+	UPROPERTY(EditAnywhere, Category = "Spawn")
+	TSubclassOf<ATD_BaseEntity> actorToSpawn = nullptr;
 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSpawn, AActor*, _actor);
 	UPROPERTY()
@@ -34,9 +31,8 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void Spawn();
 };

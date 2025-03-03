@@ -2,6 +2,7 @@
 
 
 #include "SpawnComponent.h"
+#include "TD_BaseEntity.h"
 
 // Sets default values for this component's properties
 USpawnComponent::USpawnComponent()

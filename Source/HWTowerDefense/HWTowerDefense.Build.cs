@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class HWTowerDefense : ModuleRules
@@ -11,6 +12,12 @@ public class HWTowerDefense : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
+
+		PublicIncludePaths.AddRange(new string[]
+		{
+			Path.Combine(ModuleDirectory, "Actors"),
+			Path.Combine(ModuleDirectory, "Component"),
+		});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
