@@ -6,6 +6,7 @@
 #include "TD_BaseComponent.h"
 #include "TD_AttackComponent.generated.h"
 
+class UTD_EnemyGISubsystem;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class HWTOWERDEFENSE_API UTD_AttackComponent : public UTD_BaseComponent
@@ -14,6 +15,9 @@ class HWTOWERDEFENSE_API UTD_AttackComponent : public UTD_BaseComponent
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAttack);
 	UPROPERTY()
 	FOnAttack onAttack;
+
+	UPROPERTY();
+	TObjectPtr<UTD_EnemyGISubsystem> enemySubsystem = nullptr;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AActor> projectileClass;
@@ -25,6 +29,8 @@ class HWTOWERDEFENSE_API UTD_AttackComponent : public UTD_BaseComponent
 	float currentTime = 0;
 	UPROPERTY(EditAnywhere)
 	float fireRate = 3.f;
+	UPROPERTY(EditAnywhere)
+	float targetUpdateRate = 0.3f;
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<AActor> target = nullptr;
 
@@ -48,10 +54,13 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void Attack();
+	float IncreaseTime(const float& _current, const float& _max);
 
+	void UpdateTarget();
+
+public:
+	void DrawDebug() override;
 		
 };

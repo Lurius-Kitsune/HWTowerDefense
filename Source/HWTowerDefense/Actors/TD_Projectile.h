@@ -4,29 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "TD_StaticEntity.h"
-#include "TD_Enemy.generated.h"
+#include "TD_Projectile.generated.h"
 
 UCLASS()
-class HWTOWERDEFENSE_API ATD_Enemy : public ATD_StaticEntity
+class HWTOWERDEFENSE_API ATD_Projectile : public ATD_StaticEntity
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, Category = "Entity|Components")
-	TObjectPtr<UTD_MovementComponent> movement = nullptr;
-
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<AActor> target = nullptr;
+	UPROPERTY(EditAnywhere)
+	float moveSpeed = 100.0f;
+	
 public:
-	FORCEINLINE TObjectPtr<UStaticMeshComponent> GetMesh() const { return mesh; }
-
+	FORCEINLINE void SetTarget(const TObjectPtr<AActor>& _actor)
+	{
+		target = _actor;
+	}
 public:	
 	// Sets default values for this actor's properties
-	ATD_Enemy();
+	ATD_Projectile();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Init();
+	void MoveTo(const float& _delta);
 
 };

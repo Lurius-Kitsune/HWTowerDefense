@@ -2,6 +2,7 @@
 
 
 #include "TD_Enemy.h"
+#include "../TD_EnemyGISubsystem.h"
 
 // Sets default values
 ATD_Enemy::ATD_Enemy()
@@ -16,7 +17,7 @@ ATD_Enemy::ATD_Enemy()
 void ATD_Enemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Init();
 }
 
 // Called every frame
@@ -24,5 +25,11 @@ void ATD_Enemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ATD_Enemy::Init()
+{
+	UTD_EnemyGISubsystem* _subsystem = GetGameInstance()->GetSubsystem<UTD_EnemyGISubsystem>();
+	_subsystem->AddEnemy(this);
 }
 
