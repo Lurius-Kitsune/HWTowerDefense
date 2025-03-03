@@ -17,7 +17,7 @@ class HWTOWERDEFENSE_API AEnemy : public AActor
 	TObjectPtr<UStaticMeshComponent> mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Enemy|Component")
-	TObjectPtr<UTD_MouvementComponent> movement;
+	TObjectPtr<UTD_MovementComponent> movement;
 
 	UPROPERTY(EditAnywhere, Category = "Enemy|Component")
 	TObjectPtr<UTD_LifeComponent> life;
@@ -26,7 +26,7 @@ class HWTOWERDEFENSE_API AEnemy : public AActor
 	bool useDebug = false;
 	
 public:
-	FORCEINLINE TObjectPtr<UTD_MouvementComponent> GetMovement() const
+	FORCEINLINE TObjectPtr<UTD_MovementComponent> GetMovement() const
 	{
 		return movement;
 	}

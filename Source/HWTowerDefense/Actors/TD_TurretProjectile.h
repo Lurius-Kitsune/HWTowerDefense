@@ -19,7 +19,7 @@ class HWTOWERDEFENSE_API ATD_TurretProjectile : public AActor
 	bool useDebug = false;
 
 	UPROPERTY(EditAnywhere, Category = "TurretProjectile|Component")
-	TObjectPtr<UTD_MouvementComponent> movement;
+	TObjectPtr<UTD_MovementComponent> movement;
 
 	UPROPERTY(EditAnywhere, Category = "TurretProjectile|Data")
 	float damage = 50.0f;
@@ -28,7 +28,7 @@ class HWTOWERDEFENSE_API ATD_TurretProjectile : public AActor
 	TObjectPtr<AEnemy> target;
 	
 public:
-	FORCEINLINE TObjectPtr<UTD_MouvementComponent> GetMovement() const
+	FORCEINLINE TObjectPtr<UTD_MovementComponent> GetMovement() const
 	{
 		return movement;
 	}

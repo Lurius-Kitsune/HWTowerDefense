@@ -9,15 +9,16 @@
 class ACheckpoint;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class HWTOWERDEFENSE_API UTD_MouvementComponent : public UTD_BaseComponent
+class HWTOWERDEFENSE_API UTD_MovementComponent : public UTD_BaseComponent
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
 	float moveSpeed = 200.0f;
-
 	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
-	TArray<FVector> waypoints;
+	float rotationSpeed = 200.0f;
+	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
+	TArray<FVector> path;
 
 	UPROPERTY();
 	int currentWaypointIndex = 0;
@@ -27,9 +28,10 @@ class HWTOWERDEFENSE_API UTD_MouvementComponent : public UTD_BaseComponent
 	FOnTrackFinish onTrackFinish;
 
 public :
-	FORCEINLINE void SetWaypoints(const TArray<FVector>& _waypoints)
+	FORCEINLINE void SetPath(const TArray<FVector>& _path)
 	{
-		waypoints = _waypoints;
+		path = _path;
+		currentWaypointIndex = 0;
 	}
 	FORCEINLINE FOnTrackFinish& OnTrackFinish()
 	{
@@ -38,7 +40,7 @@ public :
 
 public:	
 	// Sets default values for this component's properties
-	UTD_MouvementComponent();
+	UTD_MovementComponent();
 
 protected:
 	// Called when the game starts

@@ -12,7 +12,7 @@ ATD_TurretProjectile::ATD_TurretProjectile()
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	mesh->SetupAttachment(RootComponent);
 
-	movement = CreateDefaultSubobject<UTD_MouvementComponent>("Movement");
+	movement = CreateDefaultSubobject<UTD_MovementComponent>("Movement");
 	AddInstanceComponent(movement);
 
 }

@@ -3,6 +3,7 @@
 
 #include "SpawnComponent.h"
 #include "TD_BaseEntity.h"
+#include "TD_MouvementComponent.h"
 #include <Kismet/KismetSystemLibrary.h>
 
 // Sets default values for this component's properties
@@ -38,11 +39,15 @@ void USpawnComponent::Init()
 void USpawnComponent::Spawn()
 {
 	if (!actorToSpawn || !canSpawn) return;
-	ATD_BaseEntity* _spawner = owner->GetWorld()->SpawnActor<ATD_BaseEntity>(actorToSpawn, owner->GetActorLocation(), owner->GetActorRotation());
-	if(!_spawner) return;
+	ATD_BaseEntity* _spawned = owner->GetWorld()->SpawnActor<ATD_BaseEntity>(actorToSpawn, owner->GetActorLocation(), owner->GetActorRotation());
+	if(!_spawned) return;
+
 	amountSpawner++;
-	allSpawned.Add(_spawner);
-	onSpawn.Broadcast(_spawner);
+	allSpawned.Add(_spawned);
+	onSpawn.Broadcast(_spawned);
+	UTD_MovementComponent* _movement = _spawned->FindComponentByClass<UTD_MovementComponent>();
+	if (!_movement) return;
+	_movement->SetPath(path);
 }
 
 void USpawnComponent::DrawDebug()

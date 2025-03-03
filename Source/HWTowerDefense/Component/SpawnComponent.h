@@ -18,7 +18,7 @@ class HWTOWERDEFENSE_API USpawnComponent : public UTD_BaseComponent
 
 	UPROPERTY(EditAnywhere, Category = "Spawn|Spawn")
 	bool canSpawn = true;
-	UPROPERTY(EditAnywhere, Category = "Spawn|Spawn")
+	UPROPERTY(EditAnywhere, Category = "Spawn|Spawn", meta = (AllowAbstract = true))
 	TSubclassOf<ATD_BaseEntity> actorToSpawn = nullptr;
 	UPROPERTY(EditAnywhere, Category = "Spawn|Spawn")
 	float spawnRate = 1.5f;

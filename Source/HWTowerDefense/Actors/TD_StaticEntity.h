@@ -4,6 +4,8 @@
 #include "TD_BaseEntity.h"
 #include "TD_StaticEntity.generated.h"
 
+class UTD_MovementComponent;
+
 UCLASS()
 class HWTOWERDEFENSE_API ATD_StaticEntity : public ATD_BaseEntity
 {
@@ -11,6 +13,8 @@ class HWTOWERDEFENSE_API ATD_StaticEntity : public ATD_BaseEntity
 protected:
     UPROPERTY(EditAnywhere, Category = "Entity|Components")
     TObjectPtr<UStaticMeshComponent> mesh = nullptr;
+    UPROPERTY(EditAnywhere, Category = "Entity|Components")
+    TObjectPtr<UTD_MovementComponent> movement = nullptr;
 
 public:
     FORCEINLINE TObjectPtr<UStaticMeshComponent> GetMesh() const { return mesh; }

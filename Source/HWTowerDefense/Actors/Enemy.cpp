@@ -12,7 +12,7 @@ AEnemy::AEnemy()
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	mesh->SetupAttachment(RootComponent);
 
-	movement = CreateDefaultSubobject<UTD_MouvementComponent>("Movement");
+	movement = CreateDefaultSubobject<UTD_MovementComponent>("Movement");
 	AddInstanceComponent(movement);
 
 	life = CreateDefaultSubobject<UTD_LifeComponent>("Life");
