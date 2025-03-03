@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TD_MouvementComponent.h"
+#include "TD_LifeComponent.h"
 #include "Enemy.generated.h"
 
 UCLASS()
@@ -18,6 +19,9 @@ class HWTOWERDEFENSE_API AEnemy : public AActor
 	UPROPERTY(EditAnywhere, Category = "Enemy|Component")
 	TObjectPtr<UTD_MouvementComponent> movement;
 
+	UPROPERTY(EditAnywhere, Category = "Enemy|Component")
+	TObjectPtr<UTD_LifeComponent> life;
+
 	UPROPERTY(EditAnywhere, Category = "Enemy|Debug")
 	bool useDebug = false;
 	
@@ -25,6 +29,10 @@ public:
 	FORCEINLINE TObjectPtr<UTD_MouvementComponent> GetMovement() const
 	{
 		return movement;
+	}
+	FORCEINLINE TObjectPtr<UTD_LifeComponent> GetLife() const
+	{
+		return life;
 	}
 
 public:	

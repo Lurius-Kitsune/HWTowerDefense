@@ -20,6 +20,12 @@ class HWTOWERDEFENSE_API ATD_TurretProjectile : public AActor
 
 	UPROPERTY(EditAnywhere, Category = "TurretProjectile|Component")
 	TObjectPtr<UTD_MouvementComponent> movement;
+
+	UPROPERTY(EditAnywhere, Category = "TurretProjectile|Data")
+	float damage = 50.0f;
+
+	UPROPERTY(EditAnywhere, Category = "TurretProjectile|Data")
+	TObjectPtr<AEnemy> target;
 	
 public:
 	FORCEINLINE TObjectPtr<UTD_MouvementComponent> GetMovement() const
@@ -31,7 +37,9 @@ public:
 		movement->SetWaypoints({ _actor });
 		if (AEnemy* _enemy = Cast<AEnemy>(_actor))
 		{
+			target = _enemy;
 			_enemy->GetMovement()->OnTrackFinish().AddDynamic(this, &ATD_TurretProjectile::MissTarget);
+			_enemy->GetLife()->OnDeath().AddDynamic(this, &ATD_TurretProjectile::MissTarget);
 		}
 	}
 

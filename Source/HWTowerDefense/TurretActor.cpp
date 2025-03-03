@@ -98,7 +98,11 @@ bool ATurretActor::IsEnnemyInRange()
 			float _distance = FVector::Dist(GetActorLocation(), _enemy->GetActorLocation());
 			if (_distance <= range)
 			{
-				if (target != _enemy) _enemy->GetMovement()->OnTrackFinish().AddDynamic(this, &ATurretActor::RemoveTarget);
+				if (target != _enemy)
+				{
+					_enemy->GetMovement()->OnTrackFinish().AddDynamic(this, &ATurretActor::RemoveTarget);
+					_enemy->GetLife()->OnDeath().AddDynamic(this, &ATurretActor::RemoveTarget);
+				}
 				target = _enemy;
 				return true;
 			}

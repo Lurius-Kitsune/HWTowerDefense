@@ -21,7 +21,7 @@ ATD_TurretProjectile::ATD_TurretProjectile()
 void ATD_TurretProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	movement->OnTrackFinish().AddDynamic(this, &ATD_TurretProjectile::HitTarget);
+	Init();
 }
 
 // Called every frame
@@ -34,17 +34,20 @@ void ATD_TurretProjectile::Tick(float DeltaTime)
 
 void ATD_TurretProjectile::HitTarget()
 {
+	target->GetLife()->RemoveLifePoints(damage);
+	target = nullptr;
 	Destroy();
 }
 
 void ATD_TurretProjectile::MissTarget()
 {
+	target = nullptr;
 	Destroy();
 }
 
 void ATD_TurretProjectile::Init()
 {
-
+	movement->OnTrackFinish().AddDynamic(this, &ATD_TurretProjectile::HitTarget);
 }
 
 void ATD_TurretProjectile::DrawDebug()

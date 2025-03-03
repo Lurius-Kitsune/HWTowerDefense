@@ -14,6 +14,9 @@ AEnemy::AEnemy()
 
 	movement = CreateDefaultSubobject<UTD_MouvementComponent>("Movement");
 	AddInstanceComponent(movement);
+
+	life = CreateDefaultSubobject<UTD_LifeComponent>("Life");
+	AddInstanceComponent(life);
 }
 
 // Called when the game starts or when spawned
