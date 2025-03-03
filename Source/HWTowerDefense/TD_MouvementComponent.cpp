@@ -34,6 +34,7 @@ void UTD_MouvementComponent::DrawDebug()
 {
 	if (!currentWaypoint || !owner) return;
 	DrawDebugLine(GetWorld(), owner->GetActorLocation(), currentWaypoint->GetActorLocation(), FColor::Blue, false, -1, 0, 5.0f);
+	DrawDebugBox(GetWorld(), currentWaypoint->GetActorLocation(), FVector(10.0f), FColor::Green, false, -1, 0, 5.0f);
 }
 
 void UTD_MouvementComponent::MoveToWaypoint()
