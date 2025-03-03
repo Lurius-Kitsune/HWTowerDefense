@@ -34,7 +34,7 @@ public:
 	}
 	FORCEINLINE void SetTarget(AActor* _actor)
 	{
-		movement->SetWaypoints({ _actor });
+		//movement->SetWaypoints({ _actor.GetL });
 		if (AEnemy* _enemy = Cast<AEnemy>(_actor))
 		{
 			target = _enemy;

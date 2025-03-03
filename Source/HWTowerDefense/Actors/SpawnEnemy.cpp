@@ -37,7 +37,7 @@ void ASpawnEnemy::SetCheckpointsToEnemy(AActor* _actor)
 {
 	if (AEnemy* _enemy = Cast<AEnemy>(_actor))
 	{
-		_enemy->GetMovement()->SetWaypoints(ArrayCheckpointToActor());
+		//_enemy->GetMovement()->SetWaypoints(ArrayCheckpointToActor());
 	}
 }
 

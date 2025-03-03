@@ -3,6 +3,7 @@
 
 #include "SpawnComponent.h"
 #include "TD_BaseEntity.h"
+#include <Kismet/KismetSystemLibrary.h>
 
 // Sets default values for this component's properties
 USpawnComponent::USpawnComponent()
@@ -17,8 +18,6 @@ USpawnComponent::USpawnComponent()
 void USpawnComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	owner = GetOwner();
-	
 }
 
 
@@ -30,12 +29,45 @@ void USpawnComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	// ...
 }
 
+void USpawnComponent::Init()
+{
+	Super::Init();
+	GetWorld()->GetTimerManager().SetTimer(spawnTimerHandle, this, &USpawnComponent::Spawn, spawnRate, true);
+}
+
 void USpawnComponent::Spawn()
 {
-	if (actorToSpawn)
+	if (!actorToSpawn || !canSpawn) return;
+	ATD_BaseEntity* _spawner = owner->GetWorld()->SpawnActor<ATD_BaseEntity>(actorToSpawn, owner->GetActorLocation(), owner->GetActorRotation());
+	if(!_spawner) return;
+	amountSpawner++;
+	allSpawned.Add(_spawner);
+	onSpawn.Broadcast(_spawner);
+}
+
+void USpawnComponent::DrawDebug()
+{
+	Super::DrawDebug();
+	const UWorld* _world = GetWorld();
+	if (owner)
 	{
-		AActor* _actor = owner->GetWorld()->SpawnActor<AActor>(actorToSpawn, owner->GetActorLocation(), owner->GetActorRotation());
-		onSpawn.Broadcast(_actor);
+		const FVector& _currentLoc = owner->GetActorLocation();
+		DrawDebugBox(_world, _currentLoc + spawnLocation, FVector::OneVector * 100, FColor::Orange, false, -1, 0, 5.0f);
+		DrawDebugLine(_world, _currentLoc, spawnLocation, FColor::Orange, false, -1, 0, 5.0f);
+	}
+	
+	if (path.Num() < 1) return;
+	UKismetSystemLibrary::PrintString(this, "toto");
+	const int& _size = path.Num();
+	for (int i = 0; i < _size ; i++)
+	{
+		const FVector& _point = path[i];
+		DrawDebugSphere(_world, _point, 50, 8, FColor::Blue, false, -1.f, 0, 2.0f);
+		if(i+1 < _size)
+		{
+			const FVector& _nextPoint = path[i + 1];
+			DrawDebugLine(_world, _point, _nextPoint, FColor::Blue, false, -1.f, 0, 2.0f);
+		}
 	}
 }
 

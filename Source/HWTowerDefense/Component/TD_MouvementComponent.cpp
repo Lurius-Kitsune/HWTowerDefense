@@ -2,6 +2,7 @@
 
 
 #include "TD_MouvementComponent.h"
+#include "TD_BaseEntity.h"
 #include "Checkpoint.h"
 
 // Sets default values for this component's properties
@@ -18,8 +19,6 @@ UTD_MouvementComponent::UTD_MouvementComponent()
 void UTD_MouvementComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	owner = GetOwner();
-	SetNextWaypoint();
 }
 
 
@@ -27,21 +26,19 @@ void UTD_MouvementComponent::BeginPlay()
 void UTD_MouvementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	MoveToWaypoint();
 }
 
 void UTD_MouvementComponent::DrawDebug()
 {
-	if (!currentWaypoint || !owner) return;
-	DrawDebugLine(GetWorld(), owner->GetActorLocation(), currentWaypoint->GetActorLocation(), FColor::Blue, false, -1, 0, 5.0f);
-	DrawDebugBox(GetWorld(), currentWaypoint->GetActorLocation(), FVector(10.0f), FColor::Green, false, -1, 0, 5.0f);
+	if (!owner) return;
+	DrawDebugLine(GetWorld(), owner->GetActorLocation(), waypoints[currentWaypointIndex], FColor::Blue, false, -1, 0, 5.0f);
+	DrawDebugBox(GetWorld(), waypoints[currentWaypointIndex], FVector(10.0f), FColor::Green, false, -1, 0, 5.0f);
 }
 
-void UTD_MouvementComponent::MoveToWaypoint()
+void UTD_MouvementComponent::MoveTo()
 {
-	if (!currentWaypoint) return;
-
-	FVector _location = FMath::VInterpConstantTo(owner->GetActorLocation(), currentWaypoint->GetActorLocation(), GetWorld()->GetDeltaSeconds(), movementSpeed);
+	if(!owner || waypoints.Num() < 1) return;
+	FVector _location = FMath::VInterpConstantTo(owner->GetActorLocation(), waypoints[currentWaypointIndex], GetWorld()->GetDeltaSeconds(), moveSpeed);
 	owner->SetActorLocation(_location);
 	if (HasArrivedToWaypoint())
 	{
@@ -50,25 +47,15 @@ void UTD_MouvementComponent::MoveToWaypoint()
 			onTrackFinish.Broadcast();
 		}
 		currentWaypointIndex++;
-		SetNextWaypoint();
 	}
 }
 
-void UTD_MouvementComponent::SetNextWaypoint()
+void UTD_MouvementComponent::RotateTo()
 {
-	if (currentWaypointIndex >= waypoints.Num() || currentWaypointIndex < 0
-		|| waypoints.Num() <= 0)
-	{
-		currentWaypoint = nullptr;
-		return;
-	}
-	currentWaypoint = waypoints[currentWaypointIndex];
 }
 
 bool UTD_MouvementComponent::HasArrivedToWaypoint()
 {
-	if (!currentWaypoint) return true;
-
-	return FVector::Dist(owner->GetActorLocation(), currentWaypoint->GetActorLocation()) <= 1.0f;
+	return FVector::Dist(owner->GetActorLocation(), waypoints[currentWaypointIndex]) <= 1.0f;
 }
 

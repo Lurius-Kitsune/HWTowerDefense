@@ -3,27 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "TD_BaseComponent.h"
 #include "TD_MouvementComponent.generated.h"
 
 class ACheckpoint;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class HWTOWERDEFENSE_API UTD_MouvementComponent : public UActorComponent
+class HWTOWERDEFENSE_API UTD_MouvementComponent : public UTD_BaseComponent
 {
 	GENERATED_BODY()
 
-	UPROPERTY()
-	AActor* owner;
+	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
+	float moveSpeed = 200.0f;
 
 	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
-	float movementSpeed = 200.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
-	TArray<TObjectPtr<AActor>> waypoints;
-
-	UPROPERTY(VisibleAnywhere, Category = "Mouvement|Data")
-	TObjectPtr<AActor> currentWaypoint;
+	TArray<FVector> waypoints;
 
 	UPROPERTY();
 	int currentWaypointIndex = 0;
@@ -33,10 +27,9 @@ class HWTOWERDEFENSE_API UTD_MouvementComponent : public UActorComponent
 	FOnTrackFinish onTrackFinish;
 
 public :
-	FORCEINLINE void SetWaypoints(const TArray<TObjectPtr<AActor>>& _waypoints)
+	FORCEINLINE void SetWaypoints(const TArray<FVector>& _waypoints)
 	{
 		waypoints = _waypoints;
-		SetNextWaypoint();
 	}
 	FORCEINLINE FOnTrackFinish& OnTrackFinish()
 	{
@@ -58,8 +51,8 @@ public:
 
 		
 private:
-	void MoveToWaypoint();
-	void SetNextWaypoint();
+	void MoveTo();
+	void RotateTo();
 	bool HasArrivedToWaypoint();
 
 };
