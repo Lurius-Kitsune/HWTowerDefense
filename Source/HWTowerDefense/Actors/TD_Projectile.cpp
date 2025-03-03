@@ -30,6 +30,7 @@ void ATD_Projectile::MoveTo(const float& _delta)
 {
 	if(!target) return;
 	const FVector& _loc = FMath::VInterpTo(GetActorLocation(), target->GetActorLocation(), _delta, moveSpeed);
+	SetActorLocation(_loc);
 }
 
 
