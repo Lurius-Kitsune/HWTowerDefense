@@ -4,23 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "TD_BaseComponent.h"
+#include "TD_BaseEntity.h"
 #include "TD_MouvementComponent.generated.h"
-
-class ACheckpoint;
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class HWTOWERDEFENSE_API UTD_MovementComponent : public UTD_BaseComponent
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
+	UPROPERTY(EditAnywhere)
 	float moveSpeed = 200.0f;
-	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
+	UPROPERTY(EditAnywhere)
 	float rotationSpeed = 200.0f;
-	UPROPERTY(EditAnywhere, Category = "Mouvement|Data")
+	UPROPERTY(EditAnywhere)
 	TArray<FVector> path;
+	UPROPERTY(EditAnywhere)
+	float minDistAllowed = 1.0f;
 
-	UPROPERTY();
+	UPROPERTY(VisibleAnywhere);
 	int currentWaypointIndex = 0;
 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnTrackFinish);
@@ -36,6 +36,11 @@ public :
 	FORCEINLINE FOnTrackFinish& OnTrackFinish()
 	{
 		return onTrackFinish;
+	}
+	FORCEINLINE bool HasArrived()const
+	{
+		if (!owner || path.IsEmpty()) return true;
+		return FVector::Dist(owner->GetActorLocation(), path[currentWaypointIndex]) < minDistAllowed;
 	}
 
 public:	
@@ -55,6 +60,5 @@ public:
 private:
 	void MoveTo();
 	void RotateTo();
-	bool HasArrivedToWaypoint();
-
+	void IncreaseIndex();
 };

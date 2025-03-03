@@ -4,25 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TD_BaseEntity.generated.h"
+#include "TD_Entity.generated.h"
 
-UCLASS(Abstract)
-class HWTOWERDEFENSE_API ATD_BaseEntity : public AActor
+UCLASS()
+class HWTOWERDEFENSE_API ATD_Entity : public AActor
 {
 	GENERATED_BODY()
-
-protected:
-	UPROPERTY(EditAnywhere, Category = "Entity|Debug")
-	bool useDebug = false;
-
+	
 public:	
 	// Sets default values for this actor's properties
-	ATD_BaseEntity();
+	ATD_Entity();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	virtual void DrawDebug() PURE_VIRTUAL(ATD_BaseEntity::DrawDebug, );
+
+public:	
+	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 };

@@ -1,4 +1,5 @@
 #include "TD_StaticEntity.h"
+#include "TD_MouvementComponent.h"
 
 ATD_StaticEntity::ATD_StaticEntity()
 {
@@ -6,6 +7,7 @@ ATD_StaticEntity::ATD_StaticEntity()
     RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
     mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
     mesh->SetupAttachment(RootComponent);
+
 }
 
 void ATD_StaticEntity::BeginPlay()

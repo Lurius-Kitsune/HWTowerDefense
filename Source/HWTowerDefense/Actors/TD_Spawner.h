@@ -14,9 +14,9 @@ class HWTOWERDEFENSE_API ATD_Spawner : public ATD_BaseEntity
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditAnywhere, Category = "Enity|Component")
+	UPROPERTY(EditAnywhere, Category = "Entity|Component")
 	TObjectPtr<UBillboardComponent> billbord = nullptr;
-	UPROPERTY(EditAnywhere, Category= "Enity|Component")
+	UPROPERTY(EditAnywhere, Category= "Entity|Component")
 	TObjectPtr<USpawnComponent> spawnComponent = nullptr;
 	
 public:

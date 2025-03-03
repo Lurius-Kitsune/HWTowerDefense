@@ -39,7 +39,7 @@ void USpawnComponent::Init()
 void USpawnComponent::Spawn()
 {
 	if (!actorToSpawn || !canSpawn) return;
-	ATD_BaseEntity* _spawned = owner->GetWorld()->SpawnActor<ATD_BaseEntity>(actorToSpawn, owner->GetActorLocation(), owner->GetActorRotation());
+	ATD_BaseEntity* _spawned = owner->GetWorld()->SpawnActor<ATD_BaseEntity>(actorToSpawn, owner->GetActorLocation() + spawnLocation, owner->GetActorRotation());
 	if(!_spawned) return;
 
 	amountSpawner++;
@@ -58,7 +58,7 @@ void USpawnComponent::DrawDebug()
 	{
 		const FVector& _currentLoc = owner->GetActorLocation();
 		DrawDebugBox(_world, _currentLoc + spawnLocation, FVector::OneVector * 100, FColor::Orange, false, -1, 0, 5.0f);
-		DrawDebugLine(_world, _currentLoc, spawnLocation, FColor::Orange, false, -1, 0, 5.0f);
+		if (path.Num() >= 1) DrawDebugLine(_world, _currentLoc, path[0], FColor::Orange, false, -1, 0, 5.0f);
 	}
 	
 	if (path.Num() < 1) return;

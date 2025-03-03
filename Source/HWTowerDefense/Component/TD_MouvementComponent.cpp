@@ -43,13 +43,13 @@ void UTD_MovementComponent::MoveTo()
 	if(!owner || path.Num() < 1) return;
 	FVector _location = FMath::VInterpConstantTo(owner->GetActorLocation(), path[currentWaypointIndex], GetWorld()->GetDeltaSeconds(), moveSpeed);
 	owner->SetActorLocation(_location);
-	if (HasArrivedToWaypoint())
+	if (HasArrived())
 	{
 		if (currentWaypointIndex == path.Num() - 1)
 		{
 			onTrackFinish.Broadcast();
 		}
-		currentWaypointIndex++;
+		IncreaseIndex();
 	}
 }
 
@@ -73,8 +73,12 @@ void UTD_MovementComponent::RotateTo()
 	owner->SetActorRotation(_newRot);
 }
 
-bool UTD_MovementComponent::HasArrivedToWaypoint()
+
+
+void UTD_MovementComponent::IncreaseIndex()
 {
-	return FVector::Dist(owner->GetActorLocation(), path[currentWaypointIndex]) <= 1.0f;
+	const int& _size = path.Num();
+	currentWaypointIndex++;
+	currentWaypointIndex = currentWaypointIndex >= _size ? _size -1 : currentWaypointIndex;
 }
 
