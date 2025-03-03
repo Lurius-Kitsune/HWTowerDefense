@@ -57,7 +57,6 @@ void USpawnComponent::DrawDebug()
 	}
 	
 	if (path.Num() < 1) return;
-	UKismetSystemLibrary::PrintString(this, "toto");
 	const int& _size = path.Num();
 	for (int i = 0; i < _size ; i++)
 	{
