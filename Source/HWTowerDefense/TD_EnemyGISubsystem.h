@@ -17,6 +17,11 @@ class HWTOWERDEFENSE_API UTD_EnemyGISubsystem : public UGameInstanceSubsystem
 	UPROPERTY()
 	TArray<TObjectPtr<ATD_Enemy>> allEnemies;
 
+public:
+	FORCEINLINE TArray<TObjectPtr<ATD_Enemy>> GetAllEnemies() const
+	{
+		return allEnemies;
+	}
 protected:
 	virtual void Initialize(FSubsystemCollectionBase& _collection) override;
 	virtual void Deinitialize() override;

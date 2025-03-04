@@ -3,6 +3,7 @@
 
 #include "TD_Enemy.h"
 #include "../TD_EnemyGISubsystem.h"
+#include "TD_MouvementComponent.h"
 
 // Sets default values
 ATD_Enemy::ATD_Enemy()
@@ -31,5 +32,16 @@ void ATD_Enemy::Init()
 {
 	UTD_EnemyGISubsystem* _subsystem = GetGameInstance()->GetSubsystem<UTD_EnemyGISubsystem>();
 	_subsystem->AddEnemy(this);
+	OnDestroyed.AddDynamic(this, &ATD_Enemy::CustomDestroy);
+	//OnActorHit.AddDynamic(this, &ATD_Enemy::CustomDestroy);
+}
+
+void ATD_Enemy::CustomDestroy(AActor* _this)
+{
+	UTD_EnemyGISubsystem* _subsystem = GetGameInstance()->GetSubsystem<UTD_EnemyGISubsystem>();
+	if(!_subsystem) return;
+	_subsystem->RemoveEnemy(this);
+
+	if(!useDebug) return;
 }
 

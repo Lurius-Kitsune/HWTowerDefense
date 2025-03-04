@@ -34,3 +34,8 @@ void ATD_Tower::DrawDebug()
 	attackComponent->DrawDebug();
 }
 
+bool ATD_Tower::ShouldTickIfViewportsOnly() const
+{
+	return true;
+}
+

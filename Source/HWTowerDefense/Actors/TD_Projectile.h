@@ -19,6 +19,7 @@ public:
 	FORCEINLINE void SetTarget(const TObjectPtr<AActor>& _actor)
 	{
 		target = _actor;
+		target->OnDestroyed.AddDynamic(this, &ATD_Projectile::TargetDestroyed);
 	}
 public:	
 	// Sets default values for this actor's properties
@@ -29,5 +30,6 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	void MoveTo(const float& _delta);
-
+	UFUNCTION() void ManageOverlap(AActor* _this, AActor* _other);
+	UFUNCTION() void TargetDestroyed(AActor* _this);
 };

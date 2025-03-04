@@ -25,5 +25,5 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 	void DrawDebug();
-
+	virtual bool ShouldTickIfViewportsOnly() const override;
 };
